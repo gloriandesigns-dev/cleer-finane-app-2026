@@ -1,13 +1,14 @@
 import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { useRouter } from 'expo-router';
 import { Colors } from '../constants/Colors';
 import { MainLayout } from '../components/layout/MainLayout';
-import { CreditCard } from '../components/dashboard/CreditCard';
-import { CardRow } from '../components/cards/CardRow';
-import { Plus } from 'lucide-react-native';
+import { ControlRow } from '../components/control/ControlRow';
 import { StatusBar } from 'expo-status-bar';
 
-export default function CardsScreen() {
+export default function ControlScreen() {
+  const router = useRouter();
+
   return (
     <MainLayout activeTab="control">
       <SafeAreaView style={styles.safeArea}>
@@ -16,37 +17,56 @@ export default function CardsScreen() {
           
           {/* Header */}
           <View style={styles.header}>
-            <Text style={styles.headerTitle}>Cards</Text>
-            <TouchableOpacity style={styles.addButton}>
-              <Plus size={24} color={Colors.primaryBlack} />
-            </TouchableOpacity>
+            <Text style={styles.headerTitle}>Control</Text>
           </View>
 
           <ScrollView 
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.scrollContent}
           >
-            {/* Primary Card */}
-            <View style={styles.section}>
-              <CreditCard showStatus={true} />
+            {/* Group 1: Spend Management */}
+            <View style={styles.cardGroup}>
+              <ControlRow 
+                title="Budgets" 
+                subtitle="Manage company spend limits" 
+                onPress={() => router.push('/budgets')} 
+              />
+              <ControlRow 
+                title="Policies" 
+                subtitle="Set rules and approvals" 
+                onPress={() => {}} 
+              />
+              <ControlRow 
+                title="Approval Workflow" 
+                subtitle="Configure routing" 
+                onPress={() => {}} 
+                isLast 
+              />
             </View>
 
-            {/* My Cards List */}
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>My Cards</Text>
-              <View style={styles.cardStack}>
-                <CardRow name="Software Subscriptions" user="Arian Z." limit="$5,000 / mo" />
-                <CardRow name="Travel & Meals" user="Arian Z." limit="$2,000 / mo" />
-              </View>
+            {/* Group 2: Organization */}
+            <View style={styles.cardGroup}>
+              <ControlRow 
+                title="Team Members" 
+                subtitle="Roles and permissions" 
+                onPress={() => {}} 
+                isLast 
+              />
             </View>
 
-            {/* Shared Cards List */}
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Shared Cards</Text>
-              <View style={styles.cardStack}>
-                <CardRow name="AWS Infrastructure" user="Engineering Team" limit="$15,000 / mo" />
-                <CardRow name="Office Supplies" user="Operations" limit="$1,000 / mo" />
-              </View>
+            {/* Group 3: System */}
+            <View style={styles.cardGroup}>
+              <ControlRow 
+                title="Accounting Integration" 
+                subtitle="QuickBooks, NetSuite" 
+                onPress={() => {}} 
+              />
+              <ControlRow 
+                title="Company Settings" 
+                subtitle="Billing and preferences" 
+                onPress={() => {}} 
+                isLast 
+              />
             </View>
 
             {/* Padding for floating nav bar */}
@@ -67,38 +87,29 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
     paddingHorizontal: 24,
     paddingTop: 12,
-    paddingBottom: 16,
+    paddingBottom: 24,
   },
   headerTitle: {
     fontFamily: 'Urbanist_600SemiBold',
-    fontSize: 28,
+    fontSize: 22,
     color: Colors.primaryBlack,
     letterSpacing: -0.5,
   },
-  addButton: {
-    padding: 4,
-  },
   scrollContent: {
+    paddingHorizontal: 24,
     paddingTop: 8,
   },
-  section: {
-    paddingHorizontal: 24,
-    marginBottom: 32,
-  },
-  sectionTitle: {
-    fontFamily: 'Urbanist_600SemiBold',
-    fontSize: 18,
-    color: Colors.primaryBlack,
-    marginBottom: 16,
-  },
-  cardStack: {
+  cardGroup: {
     backgroundColor: Colors.white,
     borderRadius: 20,
+    marginBottom: 32,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.02,
+    shadowRadius: 8,
+    elevation: 2,
     overflow: 'hidden',
   },
 });
